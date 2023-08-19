@@ -6,7 +6,7 @@ import SignUp from "./components/SignUp";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 function App() {
   return (
-    <div className="App text-black">
+    <div className="App text-white">
       <Router>
         <Routes>
           <Route exact path="/" Component={Login}></Route>

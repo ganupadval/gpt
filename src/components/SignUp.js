@@ -1,7 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const [username, setUsername] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+  const nav = useNavigate();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const url= localStorage.getItem("link");
+    if (password1 !== password2) {
+      alert("Password doesn't match");
+    } else {
+      // Perform API call for authentication and get the token
+      try {
+        const response = await fetch(url+"register/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: username, password: password1 }),
+        });
+
+        if (response.ok) {
+          alert("User created");
+          nav("/chat");
+        } else {
+          alert("Try Another username");
+        }
+      } catch (error) {
+        console.error("SignUp error:", error);
+      }
+    }
+  };
   return (
     <div>
       <br />
@@ -18,6 +50,7 @@ export default function SignUp() {
           <h4 className="mt-5">Sign Up</h4>
 
           <form
+            onSubmit={handleSignup}
             style={{
               display: "grid",
               justifyItems: "center",
@@ -27,6 +60,8 @@ export default function SignUp() {
           >
             <div>
               <input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 style={{
                   minWidth: "25vw",
                   height: "6vh",
@@ -38,6 +73,8 @@ export default function SignUp() {
             </div>
             <div>
               <input
+                value={password1}
+                onChange={(e) => setPassword1(e.target.value)}
                 style={{
                   minWidth: "25vw",
                   height: "6vh",
@@ -49,6 +86,8 @@ export default function SignUp() {
             </div>
             <div>
               <input
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
                 style={{
                   minWidth: "25vw",
                   height: "6vh",
@@ -66,7 +105,7 @@ export default function SignUp() {
             </div>
           </form>
           <span>
-            Already have account? <Link to="/">SignIn here</Link>
+            Already have account? <Link to="/">SignIn</Link> here
           </span>
         </div>
       </div>

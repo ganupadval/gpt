@@ -1,12 +1,12 @@
 body {
-  background: url(https://images.unsplash.com/photo-1544306094-e2dcf9479da3)  no-repeat;
+  /* background: url(https://img.freepik.com/free-vector/blue-pink-halftone-background_53876-144365.jpg)  no-repeat; */
   background-attachment: fixed;
   background-size: cover;
   /* display: grid; */
   align-items: center;
   justify-content: center;
   height: 100%;
-  /* background-color: black; */
+  background-color: black;
 }
 
 .container {
@@ -19,6 +19,7 @@ body {
 .list {
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
+  
   list-style: none;
   margin: 5px;
   height: 7vh;
@@ -26,6 +27,12 @@ body {
   font-weight: 700;
   border-radius: 10px;
 }
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 
 .response {
   font-size: larger;
