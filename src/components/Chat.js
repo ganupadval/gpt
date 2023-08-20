@@ -31,6 +31,7 @@ export default function Chat() {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Token ${token}`,
+        "ngrok-skip-browser-warning": "any",
       },
       body: JSON.stringify({ prompt: inputData }),
     })
@@ -51,6 +52,7 @@ export default function Chat() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
+          "ngrok-skip-browser-warning": "any",
         },
         body: JSON.stringify({ title: "The US Economy Rankings" }),
       });
@@ -81,6 +83,7 @@ export default function Chat() {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Token e3886d37bd3c8ca3c4fb2b3f8f6f9fa7235a82f9`,
+        "ngrok-skip-browser-warning": "any",
       },
       // body: JSON.stringify({ sentence: inputData }),
     })
