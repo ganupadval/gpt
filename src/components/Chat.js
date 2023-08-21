@@ -7,24 +7,64 @@ import Data from "./Login";
 
 export default function Chat() {
   const [inputData, setInputData] = useState("");
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [titles, setTitles] = useState([]);
+  const [title, setTitle] = useState("");
+  const [newChat, setNewChat] = useState(true);
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("username");
-
-  const [link, setLink] = useState("");
-
   const nurl = localStorage.getItem("link");
 
   const nav = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
+    setLoading(false);
     setLoading(true);
-    setData([]);
     // setLoading(true);
+    const url = nurl + "chat/";
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+        "ngrok-skip-browser-warning": "any",
+      },
+      body: JSON.stringify({ prompt: inputData, title: title }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        titleTransfer(event, data.title);
+        console.log(data);
+      });
+  }
+
+  const titleTransfer = (e, title) => {
+    e.preventDefault();
+    console.log(title);
+    setTitle(title);
+    const url = nurl + "chat/get-data/";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+        "ngrok-skip-browser-warning": "any",
+      },
+      body: JSON.stringify({ title: title }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setConversation(data);
+      });
+  };
+
+  const handleSubmit2 = (e) => {
+    e.preventDefault();
+    setLoading(true);
     const url = nurl + "chat/";
     return fetch(url, {
       method: "POST",
@@ -37,37 +77,11 @@ export default function Chat() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
         setLoading(false);
-        console.log(data);
+        titleTransfer(e, data.title);
+        setNewChat(false);
       });
-  }
-
-  async function getData(e) {
-    e.preventDefault();
-    const url = nurl + "chat/";
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-          "ngrok-skip-browser-warning": "any",
-        },
-        body: JSON.stringify({ title: "The US Economy Rankings" }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setConversation(data);
-      } else {
-        console.error("Failed to fetch data");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+  };
 
   const Logout = (e) => {
     e.preventDefault();
@@ -82,7 +96,7 @@ export default function Chat() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Token e3886d37bd3c8ca3c4fb2b3f8f6f9fa7235a82f9`,
+        Authorization: `Token ${token}`,
         "ngrok-skip-browser-warning": "any",
       },
       // body: JSON.stringify({ sentence: inputData }),
@@ -97,6 +111,7 @@ export default function Chat() {
         console.error("Error fetching titles:", error);
       });
   }, []);
+
   return (
     <div>
       <div
@@ -114,11 +129,25 @@ export default function Chat() {
             className=" container m-2 d-none d-md-block"
             style={{ width: "20%" }}
           >
-            <div className="m-auto mt-2">
-              {/* <li className="list">Chat 1</li> */}
+            <div className="m-auto mt-2" style={{ overflow: "auto" }}>
+              <li
+                className="list text-center"
+                onClick={() => {
+                  setConversation([]);
+                  setNewChat(true)
+                }}
+                style={{ marginBottom: "20px" }}
+              >
+                New Chat
+              </li>
+
               {titles.map((a) => (
-                <li key={a.id} className="list ellipsis">
-                  {a.title}
+                <li
+                  key={a.id}
+                  className="list ellipsis"
+                  onClick={(e) => titleTransfer(e, a.title)}
+                >
+                  {a.title}{" "}
                 </li>
               ))}
             </div>
@@ -126,15 +155,32 @@ export default function Chat() {
           <div className=" container m-2 ">
             <div className="m-auto mt-2">
               <div
-                className="container"
+                className="scroll-container m-2"
                 style={{ height: "74vh", overflow: "auto" }}
               >
                 {/* {data.map((a)=>{
                   <p>{a.response}</p>  
                 })} */}
-                <p className="response" style={{ whiteSpace: "pre-line" }}>
+                {/* <p className="response" style={{ whiteSpace: "pre-line" }}>
                   {data.ai_responce}
-                </p>
+                </p> */}
+                {conversation.map((a) => (
+                  <>
+                    <h3
+                      className="p3"
+                      key={a.id}
+                      style={{ alignItems: "center", textAlign: "center" }}
+                    >
+                      {a.user_response}
+                    </h3>
+                    <p
+                      className="response container p-4"
+                      style={{ whiteSpace: "pre-line" }}
+                    >
+                      {a.ai_response}
+                    </p>
+                  </>
+                ))}
               </div>
               {loading && <Bar />}
 
@@ -143,9 +189,9 @@ export default function Chat() {
                 style={{ height: "8vh", display: "flex" }}
               >
                 <form className="d-flex ">
-                  <input
+                <input
                     type="text"
-                    className="m-auto"
+                    className="m-auto p-2"
                     value={inputData}
                     onChange={(event) => {
                       setInputData(event.target.value);
@@ -159,6 +205,22 @@ export default function Chat() {
                     }}
                     placeholder="   Give prompt to the model"
                   ></input>
+                  {newChat ? <>
+                  <input
+                    type="submit"
+                    className="m-auto"
+                    style={{
+                      height: "45px",
+                      width: "60px",
+                      color: "black",
+                      marginRight: "10px",
+                      border: "none",
+                      backgroundColor: "rgba(255, 255, 255, .20)",
+                      borderRadius: "10px",
+                    }}
+                    value="Start"
+                    onClick={handleSubmit2}
+                  ></input></>:<>
                   <input
                     type="submit"
                     className="m-auto"
@@ -173,7 +235,7 @@ export default function Chat() {
                     }}
                     value="Start"
                     onClick={handleSubmit}
-                  ></input>
+                  ></input></>}
                 </form>
               </div>
             </div>

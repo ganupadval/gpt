@@ -6,7 +6,25 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: black;
+ 
+  background: #41295a;
+  background: -webkit-linear-gradient(to right, #2F0743, #41295a);
+  background: linear-gradient(to right, #2F0743, #41295a);
+  background-image: linear-gradient(107deg, rgba(9, 0, 53, 1) 28.5%, rgba(83, 81, 162, 1) 81.4%);
+}
+*::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background:#6552b8;       /* color of the tracking area */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(70, 70, 176);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid white;
+  border-radius: 10px;  /* creates padding around scroll thumb */
 }
 
 .container {
@@ -64,3 +82,10 @@ body {
   background-color: #fa1e4e;
   animation: fillProgress 40s linear forwards;
 }
+
+/* .Question{
+  background-color: white;
+  color:black;
+} */
+
+
