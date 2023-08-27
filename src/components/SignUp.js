@@ -25,7 +25,7 @@ export default function SignUp() {
 
         if (response.ok) {
           alert("User created");
-          nav("/chat");
+          nav("/");
         } else {
           alert("Try Another username");
         }
@@ -36,11 +36,9 @@ export default function SignUp() {
   };
   return (
     <div>
-      <br />
-      <br />
-      <br />
+      
       <div
-        className="d-flex"
+        className="d-flex form"
         style={{ justifyContent: "center", alignContent: "center" }}
       >
         <div

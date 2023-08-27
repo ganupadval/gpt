@@ -6,25 +6,29 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
- 
+
   background: #41295a;
-  background: -webkit-linear-gradient(to right, #2F0743, #41295a);
-  background: linear-gradient(to right, #2F0743, #41295a);
-  background-image: linear-gradient(107deg, rgba(9, 0, 53, 1) 28.5%, rgba(83, 81, 162, 1) 81.4%);
+  background: -webkit-linear-gradient(to right, #2f0743, #41295a);
+  background: linear-gradient(to right, #2f0743, #41295a);
+  background-image: linear-gradient(
+    107deg,
+    rgba(9, 0, 53, 1) 28.5%,
+    rgba(83, 81, 162, 1) 81.4%
+  );
 }
 *::-webkit-scrollbar {
-  width: 12px;               /* width of the entire scrollbar */
+  width: 12px; /* width of the entire scrollbar */
 }
 
 *::-webkit-scrollbar-track {
-  background:#6552b8;       /* color of the tracking area */
+  background: #6552b8; /* color of the tracking area */
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: rgb(70, 70, 176);    /* color of the scroll thumb */
-  border-radius: 20px;       /* roundness of the scroll thumb */
+  background-color: rgb(70, 70, 176); /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
   border: 3px solid white;
-  border-radius: 10px;  /* creates padding around scroll thumb */
+  border-radius: 10px; /* creates padding around scroll thumb */
 }
 
 .container {
@@ -37,7 +41,7 @@ body {
 .list {
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
-  
+  justify-content: space-between;
   list-style: none;
   margin: 5px;
   height: 7vh;
@@ -50,7 +54,6 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
 
 .response {
   font-size: larger;
@@ -72,7 +75,7 @@ body {
   border: groove white;
   overflow: hidden;
   margin: auto;
-  bottom:0;
+  bottom: 0;
 }
 
 .progress {
@@ -88,4 +91,38 @@ body {
   color:black;
 } */
 
+.form {
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.list .delete {
+  display: none;
+}
+
+.list:hover .delete {
+  display: block;
+}
+
+
+
+
+.selected-title {
+  background-color: #659aa4; /* Example highlighting color */
+  color: white;
+  /* Add any other styling you want for the highlighted title */
+}
+
+pre {
+  display: block;
+  padding: 10px;
+  color: white;
+  background-color: black;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  white-space: pre;
+  overflow-x: auto;
+}
 

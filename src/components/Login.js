@@ -64,11 +64,11 @@ export default function Login() {
   // const username
   return (
     <>
+      {/* <br />
       <br />
-      <br />
-      <br />
+      <br /> */}
       <div
-        className="d-flex"
+        className="d-flex align-self-center form justify-content-center"
         style={{ justifyContent: "center", alignContent: "center" }}
       >
         <div
